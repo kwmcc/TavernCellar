@@ -119,6 +119,7 @@ class SRD(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(64))
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	filename = db.Column(db.string(64))
 	description = db.Column(db.Text)
 	reported = db.Column(db.Boolean)
 	submissiontime = db.Column(db.DateTime)
