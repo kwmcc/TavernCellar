@@ -1,10 +1,14 @@
 import os
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
-from flask.ext.script import Manager
+from flask import Flask, render_template, session, request, redirect, url_for, send_from_directory
+from flask.ext.script import Manager, Shell
 from flask.ext.moment import Moment
+from flask.ext.wtf import Form
+from wtforms import StringField, SubmitField, FileField
+from wtforms.validators import Required
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
+from flask.ext.migrate import Migrate, MigrateCommand
 from werkzeug import secure_filename, generate_password_hash, check_password_hash
 
 #setup for database
@@ -22,6 +26,7 @@ login_manager.login_view = 'auth.login'
 #app itself
 app = Flask(__name__)
 app.debug = True
+app.secret_key= 'Secret'
 
 #setup for uploads to work
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -36,6 +41,15 @@ db = SQLAlchemy(app)
 #setup for some app functionality
 manager = Manager(app)
 moment = Moment(app)
+migrate = Migrate(app, db)
+
+#adds the shell command to the Manager
+def make_shell_context():
+    return dict(app=app, db=db, User=User, SRD=SRD, Comment=Comment, Tag=Tag, Rating=Rating)
+manager.add_command("shell", Shell(make_context=make_shell_context))
+
+#adds the migrate command to Manager
+manager.add_command('db', MigrateCommand)
 
 #DATABASE
 class User(db.Model):
@@ -200,19 +214,28 @@ def srd():
 def browse():
     return render_template('browse.html')
 
+class SRDForm(Form):
+	file = FileField('SRD .pdf')
+	title = StringField("Title")
+	submit = SubmitField('Submit')
+
 #This is currently really basic, but it does work.
 #It redirects to the SRD page on submission
 #we'll probably want to give the files numerical names
 #to make it easier on ourselves and prevent duplicate uploads.
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('srd', filename=filename))
-    return render_template('submit.html')
+	form = SRDForm()
+	if form.validate_on_submit():
+		filename = secure_filename(form.file.data.filename)
+		title = form.title.data
+		srd = SRD()
+		srd.title=title
+		srd.filename=filename
+		db.session.add(srd)
+		form.file.data.save('uploads/' + filename)
+		return redirect(url_for('srd', srd=srd))
+	return render_template('submit.html', form=form)
 
 
 @app.route('/login')
@@ -224,7 +247,9 @@ def login():
 def signup():
     return render_template('signup.html')
 
-	
+
+
+
 
 if __name__ == '__main__':
     manager.run()
