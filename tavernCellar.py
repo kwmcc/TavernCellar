@@ -119,7 +119,7 @@ class SRD(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(64))
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-	filename = db.Column(db.string(64))
+	filename = db.Column(db.String(64))
 	description = db.Column(db.Text)
 	reported = db.Column(db.Boolean)
 	submissiontime = db.Column(db.DateTime)
@@ -167,7 +167,9 @@ def load_user(user_id):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-	
+
+
+################### ERROR HANDLING AND ROUTES ####################	
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
