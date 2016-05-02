@@ -7,6 +7,7 @@ class Config:
     #setup for uploads to work 
     #UPLOAD_FOLDER = 'uploads/'
     #ALLOWED_EXTENSIONS = set(['pdf'])
+
     @staticmethod
     def init_app(app):
         pass

@@ -61,10 +61,10 @@ def submit():
             return redirect(url_for('srd', filename=filename))
     return render_template('submit.html')
 
-
-@main.route('/login')
-def login():
-    return render_template('login.html')
+#Now defined in app/auth/views.py
+#@main.route('/login')
+#def login():
+#    return render_template('login.html')
 
 
 @main.route('/signup')
