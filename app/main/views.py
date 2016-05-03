@@ -1,5 +1,9 @@
 import os
 from flask import render_template, request, session, redirect, url_for, current_app
+from flask.ext.script import Manager, Shell
+from flask.ext.moment import Moment
+from flask.ext.wtf import Form
+from wtforms import StringField, SubmitField, FileField
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager
 from .. import db
@@ -46,20 +50,29 @@ def srd():
 def browse():
     return render_template('browse.html')
 
+
+class SRDForm(Form):
+	file = FileField('SRD .pdf')
+	title = StringField("Title")
+	submit = SubmitField('Submit')
+
 #This is currently really basic, but it does work.
 #It redirects to the SRD page on submission
 #we'll probably want to give the files numerical names
 #to make it easier on ourselves and prevent duplicate uploads.
 @main.route('/submit', methods=['GET', 'POST'])
 def submit():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            #ERROR ON THE FOLLOWING LINE, "app.config" namespace DNE anymore
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('srd', filename=filename))
-    return render_template('submit.html')
+	form = SRDForm()
+	if form.validate_on_submit():
+		filename = secure_filename(form.file.data.filename)
+		title = form.title.data
+		srd = SRD()
+		srd.title=title
+		srd.filename=filename
+		db.session.add(srd)
+		form.file.data.save('uploads/' + filename)
+		return redirect(url_for('main.srd', srd=srd))
+	return render_template('submit.html', form=form)
 
 
 @main.route('/login')
