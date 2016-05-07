@@ -1,0 +1,16 @@
+{% extends "material/base.html" %}
+{% import "material/utils.html" as util %}
+
+{% block title %}Tavern Cellar{% endblock %} 
+
+
+{% block content %}
+    {{ container() }}
+	    {{ row() }}
+            {{ col(['s12', 'm6']) }}
+                {# util.card(title, content, actions = []#}
+                {{ util.card('The Bar', '<p>This is the Bar!</p>', [['https://github.com/kwmcc/TavernCellar', 'Our Github']])}}
+            {{ enddiv() }}
+        {{ enddiv() }}
+    {{ enddiv() }}
+{% endblock %}
