@@ -41,9 +41,10 @@ def user():
     return render_template('user.html')
 
 
-@main.route('/srd')
-def srd():
-    return render_template('srd.html')
+@main.route('/srd/<title>')
+def srd(title):
+	srd = SRD.query.filter_by(title=title).first_or_404()
+	return render_template('srd.html', srd=srd)
 
 
 @main.route('/browse')
@@ -71,7 +72,7 @@ def submit():
 		srd.filename=filename
 		db.session.add(srd)
 		form.file.data.save('uploads/' + filename)
-		return redirect(url_for('main.srd', srd=srd))
+		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
 
 
