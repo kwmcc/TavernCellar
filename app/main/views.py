@@ -1,14 +1,16 @@
 import os
 from flask import render_template, request, session, redirect, url_for, current_app
 from flask.ext.script import Manager, Shell
-from flask.ext.moment import Moment
+#from flask.ext.moment import Moment
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, FileField
+from wtforms import StringField, SubmitField, FileField, TextField
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager
 from .. import db
 from ..models import SRD
 from . import main
+from ..__init__ import moment
+from datetime import datetime
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -55,6 +57,7 @@ def browse():
 class SRDForm(Form):
 	file = FileField('SRD .pdf')
 	title = StringField("Title")
+	description = TextField("Description")
 	submit = SubmitField('Submit')
 
 #This is currently really basic, but it does work.
@@ -67,9 +70,12 @@ def submit():
 	if form.validate_on_submit():
 		filename = secure_filename(form.file.data.filename)
 		title = form.title.data
+		description = form.description.data
 		srd = SRD()
 		srd.title=title
 		srd.filename=filename
+		srd.description=description
+		srd.submissiontime=datetime.utcnow()
 		db.session.add(srd)
 		form.file.data.save('uploads/' + filename)
 		return redirect(url_for('main.srd', title=title))
