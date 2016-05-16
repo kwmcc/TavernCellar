@@ -7,12 +7,33 @@
     <!-- 2. Use an HTML Import to bring in some elements. -->
     <link rel="import" href={{url_for('static', filename='bower_components/paper-button/paper-button.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-input/paper-input.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-toolbar/paper-toolbar.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-tabs/paper-tabs.html', _external=True)}}>
+
+    <!-- import of CSS stylesheet -->
+    <link type="text/css" rel="stylesheet" href={{url_for('static', filename='base.css')}}>
   </head>
   <body>
     <!-- 3. Declare the element. Configure using its attributes. -->
-    <paper-input label="Your name here"></paper-input>
-    <paper-button>Say Hello</paper-button>
-    <div id="greeting"></div>
+    <paper-toolbar id="nav-bar">
+        <img src={{url_for('static', filename='barrel.ico', _external=True)}}>
+        <h1> &nbsp; Tavern Cellar </h1>
+
+        <paper-tabs id="navButtons"selected="0" >
+            <paper-tab>Browse</paper-tab>
+            <paper-tab>Submit</paper-tab>
+            <paper-tab>Login</paper-tab>
+        </paper-tabs>
+    </paper-toolbar>
+
+    <paper-toolbar id="footer">
+        <span class="copyright"/>&copy; 2016 Tavern Labs, a UCSC project</span>
+        <paper-tabs id="footButtons" selected="0" >
+            <paper-tab>Feedback</paper-tab>
+            <paper-tab>Github</paper-tab>
+            <paper-tab>About</paper-tab>
+        </paper-tabs>
+    </paper-toolbar>
 
     <script>
       // To ensure that elements are ready on polyfilled browsers, 
