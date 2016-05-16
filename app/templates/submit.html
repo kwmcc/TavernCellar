@@ -1,4 +1,7 @@
 <!doctype html>
+{% extends 'base.html' %}
+
+{% block content %}
 <title>Submit</title>
 <h1>Submit new File</h1>
 <form action="/submit" method=post enctype=multipart/form-data>
@@ -8,3 +11,4 @@
 	{{form.file}}<br>
 	{{form.submit}}
 </form>
+{% endblock %}

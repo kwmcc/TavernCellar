@@ -1,5 +1,6 @@
 <html>
   <head>
+    {% block head %}
     <!-- 1. Load webcomponents-lite.min.js for polyfill support. -->
     <script src={{url_for('static', filename='bower_components/webcomponentsjs/webcomponents-lite.min.js', _external=True)}}>
     </script>
@@ -9,8 +10,9 @@
     <link rel="import" href={{url_for('static', filename='bower_components/paper-input/paper-input.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-toolbar/paper-toolbar.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-tabs/paper-tabs.html', _external=True)}}>
+    {% endblock %}
 
-    <!-- import of CSS stylesheet -->
+    <!-- import of CSS stylesheet for base template (I.E, this file...)-->
     <link type="text/css" rel="stylesheet" href={{url_for('static', filename='base.css')}}>
   </head>
   <body>
@@ -25,7 +27,12 @@
             <paper-tab>Login</paper-tab>
         </paper-tabs>
     </paper-toolbar>
+    {% block content %}
+    
+    <!-- This block sets up template inheritance for the other templates. Ideally, we want the rest of
+    our changes to reside between the nav-bar and footer. -->
 
+    {% endblock %}
     <paper-toolbar id="footer">
         <span class="copyright"/>&copy; 2016 Tavern Labs, a UCSC project</span>
         <paper-tabs id="footButtons" selected="0" >
