@@ -1,0 +1,25 @@
+#topBrews {
+    background-color: rgb(153, 130, 123);
+    color: rgb(255, 249, 196);
+    width: 50%;
+    display: inline-block; 
+}
+
+#newBrews {
+    background-color: rgb(153, 130, 123);
+    color: rgb(255,249,196);
+    width: 50%;
+    display: inline-block; 
+    position: absolute; 
+    right: 0px; 
+}
+
+#topButtons {
+    position: absolute; 
+    right: 0px; 
+}
+
+#newButtons {   
+    position: absolute;
+    right: 0px; 
+}

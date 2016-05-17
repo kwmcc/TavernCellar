@@ -1,11 +1,22 @@
-body {
-    background-color: #fff79a; 
+#nav-bar {
+    background-color: rgb(109,76,75);
+    color: rgb(255,249,196);
 }
 
-div.topBar {
-    background-color: rgb(115,104,84);
+#footer {
+    background-color: rgb(109, 76, 75); 
+    color: rgb(255,249,196); 
+    position: fixed; 
+    bottom: 0; 
+    width: 99%;
 }
 
-p.test {
-    color: #fff79a;
-}   
+#navButtons {
+    position: absolute;
+    right: 0px; 
+}
+
+#footButtons {
+    position: absolute;
+    right: 0px;
+}

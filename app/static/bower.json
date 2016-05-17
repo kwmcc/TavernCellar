@@ -1,0 +1,22 @@
+{
+  "name": "TavernCellar",
+  "homepage": "https://github.com/kwmcc/TavernCellar",
+  "authors": [
+    "Erick <ergerodr@ucsc.edu>"
+  ],
+  "description": "test of polymer library",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "webcomponentsjs": "^0.7.22"
+  }
+}
