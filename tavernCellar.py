@@ -235,6 +235,7 @@ def submit():
 		srd = SRD()
 		srd.title=title
 		srd.filename=filename
+		srd.submissiontime=datetime.utcnow()
 		db.session.add(srd)
 		form.file.data.save('uploads/' + filename)
 		return redirect(url_for('srd', srd=srd))

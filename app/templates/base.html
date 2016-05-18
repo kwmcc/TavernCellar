@@ -1,31 +1,58 @@
-<!DOCTYPE html>
-{% extends "material/base.html" %}
-{% import "material/utils.html" as util %}
+<html>
+  <head>
+    {% block head %}
+    <!-- 1. Load webcomponents-lite.min.js for polyfill support. -->
+    <script src={{url_for('static', filename='bower_components/webcomponentsjs/webcomponents-lite.min.js', _external=True)}}>
+    </script>
 
-{% block title %}Tavern Cellar{% endblock %} 
+    <!-- 2. Use an HTML Import to bring in some elements. -->
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-button/paper-button.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-input/paper-input.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-toolbar/paper-toolbar.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-tabs/paper-tabs.html', _external=True)}}>
+    {% endblock %}
 
-{% block head %}
-    {{ super() }}
-    <link type="text/css" rel="stylesheet" href="
-        {{ url_for('static', filename='base.css') }}">
+    <!-- import of CSS stylesheet for base template (I.E, this file...)-->
+    <link type="text/css" rel="stylesheet" href={{url_for('static', filename='base.css')}}>
+  </head>
+  <body>
+    <!-- 3. Declare the element. Configure using its attributes. -->
+    <paper-toolbar id="nav-bar">
+        <img src={{url_for('static', filename='barrel.ico', _external=True)}}>
+        <h1> &nbsp; Tavern Cellar </h1>
 
-{% endblock %}
-
-{% block content %}
-{{ super() }}
-<div class="topBar"> 
+        <paper-tabs id="navButtons"selected="0" >
+            <paper-tab>Browse</paper-tab>
+            <paper-tab>Submit</paper-tab>
+            <paper-tab>Login</paper-tab>
+        </paper-tabs>
+    </paper-toolbar>
+    {% block content %}
     
-    <h3>TavernCellar</h3>
-</div>
-    {{ container() }}
-	    {{ row() }}
-            {{ col(['s12', 'm6']) }} 
-                {# util.card(title, content, actions = []#}
-                {{ util.card('The Bar', '<p>This is the Bar!</p>', 
-                    [['https://github.com/kwmcc/TavernCellar', 'Our Github']])}}
+    <!-- This block sets up template inheritance for the other templates. Ideally, we want the rest of
+    our changes to reside between the nav-bar and footer. -->
 
-            {{ enddiv() }}
-        {{ enddiv() }}
-    {{ enddiv() }}
-{% endblock %}
+    {% endblock %}
+    <paper-toolbar id="footer">
+        <span class="copyright"/>&copy; 2016 Tavern Labs, a UCSC project</span>
+        <paper-tabs id="footButtons" selected="0" >
+            <paper-tab>Feedback</paper-tab>
+            <paper-tab>Github</paper-tab>
+            <paper-tab>About</paper-tab>
+        </paper-tabs>
+    </paper-toolbar>
 
+    <script>
+      // To ensure that elements are ready on polyfilled browsers, 
+      // wait for WebComponentsReady. 
+      document.addEventListener('WebComponentsReady', function() {
+        var input = document.querySelector('paper-input');
+        var button = document.querySelector('paper-button');
+        var greeting = document.getElementById("greeting");
+        button.addEventListener('click', function() {
+          greeting.textContent = 'Hello, ' + input.value;
+        });
+      });
+    </script>
+  </body>
+</html>

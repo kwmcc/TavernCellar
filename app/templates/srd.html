@@ -1,5 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <div class="page-header">
+	<head>
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+	</head>
     <h1>SRD</h1>
 	<p>{{ srd.title }}</p>
 	<p>{{ srd.filename }}</p>
+	<p>{{ srd.description }}</p>
+	<p>{{ moment(srd.submissiontime).format('LLL') }}</p>
 </div>
+{% endblock %}
