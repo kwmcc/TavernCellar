@@ -7,7 +7,19 @@ class Config:
     #setup for uploads to work 
     #UPLOAD_FOLDER = 'uploads/'
     #ALLOWED_EXTENSIONS = set(['pdf'])
-
+  #Likely temporary, uses a gmail account
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = 'itstaverncellar'
+    MAIL_PASSWORD = 'taverncellar2102'
+    MAIL_SUBJECT_PREFIX = '[Tavern Cellar]'
+    MAIL_SENDER = 'Tavern Cellar Admin <itstaverncellar@gmail.com>'
+   # ADMIN = os.environ.get('ADMIN')
+ 
+    
+    #SECRET_KEY = os.environ.get('SECRET_KEY')
+    
     @staticmethod
     def init_app(app):
         pass

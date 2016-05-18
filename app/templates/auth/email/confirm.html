@@ -1,0 +1,8 @@
+<p>Hi {{ user.username }}!</p>
+
+<p>Thanks for joining Tavern Cellar.</p> 
+
+<p>Confirm your email address at the following link:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+
+

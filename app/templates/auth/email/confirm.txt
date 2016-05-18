@@ -1,0 +1,8 @@
+Hi {{ user.username }}!
+
+Thanks for joining Tavern Cellar. 
+
+Confirm your email address at the following link:
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+
