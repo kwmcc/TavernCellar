@@ -105,8 +105,16 @@ class Comment(db.Model):
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
-    srd_id = db.Column(db.Integer, db.ForeignKey('srd.id'))
     content = db.Column(db.String(64))
+
+    def __repr__(self):
+        return '<Tag %r>' % self.content
+
+class TagTable(db.Model):
+    __tablename__ = 'tagtable'
+    id = db.Column(db.Integer, primary_key=True)
+    srd_id = db.Column(db.Integer, db.ForeignKey('srd.id'))
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
 
     def __repr__(self):
         return '<Tag %r>' % self.content
