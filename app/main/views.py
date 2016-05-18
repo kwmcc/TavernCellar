@@ -48,7 +48,7 @@ def srd(title):
 	srd = SRD.query.filter_by(title=title).first_or_404()
 	tag_ids = TagTable.query.filter_by(srd_id=srd.id)
 	ids = [];
-	tags = [];
+	tags = None;
 	for id in tag_ids:
 		ids.append(id.tag_id);
 	if len(ids) > 0:
