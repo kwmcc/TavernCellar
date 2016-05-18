@@ -117,7 +117,7 @@ class TagTable(db.Model):
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
 
     def __repr__(self):
-        return '<Tag %r>' % self.content
+        return '<TagTable %r>' % self.id
 
 class Rating(db.Model):
     __tablename__ = 'ratings'

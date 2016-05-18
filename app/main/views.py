@@ -7,7 +7,7 @@ from wtforms import StringField, SubmitField, FileField, TextField
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager
 from .. import db
-from ..models import SRD
+from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
 from ..__init__ import moment
 from datetime import datetime
@@ -46,7 +46,14 @@ def user():
 @main.route('/srd/<title>')
 def srd(title):
 	srd = SRD.query.filter_by(title=title).first_or_404()
-	return render_template('srd.html', srd=srd)
+	tag_ids = TagTable.query.filter_by(srd_id=srd.id)
+	ids = [];
+	tags = [];
+	for id in tag_ids:
+		ids.append(id.tag_id);
+	if len(ids) > 0:
+		tags = Tag.query.get_or_404(_or(v for v in ids))
+	return render_template('srd.html', srd=srd, tags=tags)
 
 
 @main.route('/browse')
