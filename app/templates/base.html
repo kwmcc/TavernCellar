@@ -22,9 +22,16 @@
         <h1> &nbsp; Tavern Cellar </h1>
 
         <paper-tabs id="navButtons"selected="0" >
-            <paper-tab>Browse</paper-tab>
-            <paper-tab>Submit</paper-tab>
-            <paper-tab>Login</paper-tab>
+            <style is="custom-style">
+              .link {
+                @apply(--layout-horizontal);
+                @apply(--paper-tab-color: brown);
+
+              }
+            </style>
+            <paper-tab><a href="browse" class="link" tabindex="-1">Browse</a></paper-tab>
+            <paper-tab><a href="submit" class="link" tabindex="-1">Submit</a></paper-tab>
+            <paper-tab><a href="login" class="link" tabindex="-1">Login</a></paper-tab>
         </paper-tabs>
     </paper-toolbar>
     {% block content %}
@@ -37,10 +44,10 @@
         <span class="copyright"/>&copy; 2016 Tavern Labs, a UCSC project</span>
         <paper-tabs id="footButtons" selected="0" >
             <paper-tab>Feedback</paper-tab>
-            <paper-tab>Github</paper-tab>
+            <paper-tab><a href="https://github.com/kwmcc/TavernCellar" class="link" tabindex="-1">Github</a></paper-tab>
             <paper-tab>About</paper-tab>
         </paper-tabs>
-    </paper-toolbar>
+    </paper-toolbar> 
 
     <script>
       // To ensure that elements are ready on polyfilled browsers, 
