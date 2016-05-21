@@ -1,5 +1,5 @@
 import os
-from flask import render_template, request, session, redirect, url_for, current_app
+from flask import render_template, request, session, redirect, abort, url_for, current_app
 from flask.ext.script import Manager, Shell
 #from flask.ext.moment import Moment
 from flask.ext.wtf import Form
@@ -7,7 +7,7 @@ from wtforms import StringField, SubmitField, FileField, TextField
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager, current_user, login_required
 from .. import db
-from ..models import SRD
+from ..models import SRD, User
 from . import main
 from ..__init__ import moment
 from datetime import datetime
@@ -38,9 +38,12 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/user')
-def user():
-    return render_template('user.html')
+@main.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    return render_template('user.html', user=user)
 
 
 @main.route('/srd/<title>')
@@ -68,6 +71,7 @@ class SRDForm(Form):
 @login_required
 def submit():
 	form = SRDForm()
+        print (current_user)
 	if form.validate_on_submit():
 		filename = secure_filename(form.file.data.filename)
 		title = form.title.data
