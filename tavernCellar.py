@@ -4,10 +4,11 @@ from flask import Flask, render_template, session, request, redirect, url_for, s
 from flask.ext.script import Manager, Shell
 from flask.ext.moment import Moment
 from flask.ext.wtf import Form
+from flask.ext.bootstrap import Bootstrap
 from wtforms import StringField, SubmitField, FileField
 from wtforms.validators import Required
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
+#from flask.ext.login import LoginManager
 from flask.ext.migrate import Migrate, MigrateCommand
 from werkzeug import secure_filename, generate_password_hash, check_password_hash
 
@@ -18,15 +19,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['pdf'])
 
-#setup for login
+#setup for login - moved to app/__init__.py
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 
+
 #app itself
 app = Flask(__name__)
 app.debug = True
-app.secret_key= 'Secret'
+#app.secret_key= 'Secret'
 
 #setup for uploads to work
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -42,6 +44,7 @@ db = SQLAlchemy(app)
 manager = Manager(app)
 moment = Moment(app)
 migrate = Migrate(app, db)
+bootstrap = Bootstrap(app)
 
 #adds the shell command to the Manager
 def make_shell_context():
@@ -239,9 +242,9 @@ def submit():
 	return render_template('submit.html', form=form)
 
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
+#@app.route('/login')
+#def login():
+#    return render_template('login.html')
 
 
 @app.route('/signup')

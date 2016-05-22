@@ -1,0 +1,8 @@
+Hi {{ user.username }}!
+
+Confirm your new email address at the following link:
+{{ url_for('auth.change_email', token=token, _external=True) }}
+
+
+Thanks,
+Tavern Cellar

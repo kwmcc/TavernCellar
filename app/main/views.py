@@ -6,7 +6,7 @@ from flask.ext.script import Manager, Shell
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, FileField, TextField, FieldList
 from werkzeug import secure_filename
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, current_user, login_required
 from .. import db
 from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
@@ -74,6 +74,7 @@ class SRDForm(Form):
 #we'll probably want to give the files numerical names
 #to make it easier on ourselves and prevent duplicate uploads.
 @main.route('/submit', methods=['GET', 'POST'])
+@login_required
 def submit():
 	form = SRDForm()
 	if form.validate_on_submit():
@@ -106,13 +107,13 @@ def submit():
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
 
+#Now defined in app/auth/views.py:
 
-@main.route('/login')
-def login():
-    return render_template('login.html')
-
-
-@main.route('/signup')
-def signup():
-    return render_template('signup.html')
+#@main.route('/login')
+#def login():
+#    return render_template('login.html')
+#
+#@main.route('/signup')
+#def signup():
+#    return render_template('auth/signup.html')
 
