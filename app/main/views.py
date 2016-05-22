@@ -13,7 +13,6 @@ from . import main
 from ..__init__ import moment
 from datetime import datetime
 from sqlalchemy import or_
-
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
@@ -48,14 +47,15 @@ def user():
 @main.route('/srd/<title>')
 def srd(title):
 	srd = SRD.query.filter_by(title=title).first_or_404()
-	tag_ids = TagTable.query.filter_by(srd_id=srd.id)
+	tag_ids = TagTable.query.filter_by(srd_id=srd.id).all()
 	ids = [];
 	tags = None;
+        print tag_ids
 	for id in tag_ids:
 		ids.append(id.tag_id);
 	if len(ids) > 0:
-		tags = Tag.query.get_or_404(or_(v for v in ids))
-	return render_template('srd.html', srd=srd, tags=tags)
+                tags = Tag.query.filter(or_(Tag.id == v for v in ids)).all()
+        return render_template('srd.html', srd=srd, tags=tags)
 
 
 @main.route('/browse')
@@ -92,8 +92,8 @@ def submit():
 		db.session.commit()
 		form.file.data.save('uploads/' + filename)
                 for tag in form.tag.data:
-        #            new_tag = Tag.query.filter_by(content=tag)
-        #            if new_tag.id == None:
+             #       new_tag = Tag.query.filter_by(content=tag)
+             #       if new_tag == None:
                     new_tag = Tag()
                     new_tag.content = tag
                     db.session.add(new_tag)
@@ -103,6 +103,7 @@ def submit():
                     srd_tag.tag_id = new_tag.id
                     db.session.add(srd_tag)
                     db.session.commit() 
+                print TagTable.query.all()
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
 
