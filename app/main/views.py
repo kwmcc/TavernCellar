@@ -12,6 +12,7 @@ from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
 from ..__init__ import moment
 from datetime import datetime
+from sqlalchemy import or_
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -53,7 +54,7 @@ def srd(title):
 	for id in tag_ids:
 		ids.append(id.tag_id);
 	if len(ids) > 0:
-		tags = Tag.query.get_or_404(_or(v for v in ids))
+		tags = Tag.query.get_or_404(or_(v for v in ids))
 	return render_template('srd.html', srd=srd, tags=tags)
 
 
@@ -65,7 +66,7 @@ def browse():
 class SRDForm(Form):
 	file = FileField('SRD .pdf')
 	title = StringField("Title")
-	tag = FieldList(StringField("Tag"),min_entries=2)
+	tag = FieldList(StringField("Tag"))
 	description = TextField("Description")
 	submit = SubmitField('Submit')
 
@@ -90,6 +91,18 @@ def submit():
 		db.session.add(srd)
 		db.session.commit()
 		form.file.data.save('uploads/' + filename)
+                for tag in form.tag.data:
+        #            new_tag = Tag.query.filter_by(content=tag)
+        #            if new_tag.id == None:
+                    new_tag = Tag()
+                    new_tag.content = tag
+                    db.session.add(new_tag)
+                    db.session.commit()
+                    srd_tag = TagTable()
+                    srd_tag.srd_id = srd.id
+                    srd_tag.tag_id = new_tag.id
+                    db.session.add(srd_tag)
+                    db.session.commit() 
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
 
