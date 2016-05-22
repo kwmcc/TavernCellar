@@ -4,14 +4,36 @@
 {% block content %}
 <title>Submit</title>
 <h1>Submit new File</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    var max_fields      = Infinity; //maximum input boxes allowed
+    var wrapper         = $(".tag_fields_wrap ul"); //Fields wrapper
+    var add_button      = $(".tag_field_button"); //Add button ID
+    
+    var x = 0; //initlal text box count
+    $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            $(wrapper).append('<li><input id="tag-' + x + '" name="tag-' + x + '" type="text" value=""><a href="#" class="remove_field">Remove</a></div></li>'); //add input box
+            x++; //text box increment
+        }
+    });
+    
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('li').remove(); x--;
+    })
+});
+</script>
 <form action="/submit" method=post enctype=multipart/form-data>
 	{{form.hidden_tag()}}
 	{{form.title.label}}
 	{{form.title}}<br>
-	{% set temp=4 %}
-	{% for i in range(0,temp) %}
-		{{form.tag}}
-	{% endfor %}
+	<button class="tag_field_button">Add Tag</button>
+	<div class="tag_fields_wrap">
+		<ul class="tag" id="tag">
+		</ul>
+	</div>
 	<br>
 	{{form.description.label}}
 	{{form.description}}<br>
