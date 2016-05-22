@@ -12,7 +12,7 @@ from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
 from ..__init__ import moment
 from datetime import datetime
-from sqlalchemy import or_
+from sqlalchemy import or_, exists
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
@@ -50,8 +50,7 @@ def srd(title):
 	tag_ids = TagTable.query.filter_by(srd_id=srd.id).all()
 	ids = [];
 	tags = None;
-        print tag_ids
-	for id in tag_ids:
+     	for id in tag_ids:
 		ids.append(id.tag_id);
 	if len(ids) > 0:
                 tags = Tag.query.filter(or_(Tag.id == v for v in ids)).all()
@@ -78,7 +77,6 @@ class SRDForm(Form):
 def submit():
 	form = SRDForm()
 	if form.validate_on_submit():
-		print form.tag.data
 		sys.stdout.flush()
 		filename = secure_filename(form.file.data.filename)
 		title = form.title.data
@@ -92,18 +90,19 @@ def submit():
 		db.session.commit()
 		form.file.data.save('uploads/' + filename)
                 for tag in form.tag.data:
-             #       new_tag = Tag.query.filter_by(content=tag)
-             #       if new_tag == None:
-                    new_tag = Tag()
-                    new_tag.content = tag
-                    db.session.add(new_tag)
-                    db.session.commit()
-                    srd_tag = TagTable()
-                    srd_tag.srd_id = srd.id
-                    srd_tag.tag_id = new_tag.id
-                    db.session.add(srd_tag)
+                    srd_tags = TagTable()
+                    srd_tags.srd_id = srd.id  
+                    new_tag = db.session.query(Tag).filter_by(content=tag).first()
+                    if (new_tag):
+                        srd_tags.tag_id = new_tag.id
+                    else:
+                        new_tag = Tag()
+                        new_tag.content = tag
+                        db.session.add(new_tag)
+                        db.session.commit()
+                        srd_tags.tag_id = new_tag.id
+                    db.session.add(srd_tags)
                     db.session.commit() 
-                print TagTable.query.all()
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
 

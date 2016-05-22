@@ -12,6 +12,8 @@
 	<p>{{ srd.description }}</p>
 	<p>{{ moment(srd.submissiontime).format('LLL') }}</p>
 	<h2>TAGS</h2>
-	{{ tags }}
+	{% for tag in tags %}
+             {{ tag.content }} 
+        {% endfor %}
 </div>
 {% endblock %}
