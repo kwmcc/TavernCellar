@@ -97,7 +97,7 @@ class User(UserMixin, db.Model):
 class SRD(db.Model):
     __tablename__ = 'srd'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64))
+    title = db.Column(db.String(64), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     filename = db.Column(db.String(64))
     description = db.Column(db.Text)

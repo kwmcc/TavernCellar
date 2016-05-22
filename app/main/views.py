@@ -2,12 +2,10 @@ import os
 import sys
 from flask import render_template, request, session, redirect, url_for, current_app
 from flask.ext.script import Manager, Shell
-#from flask.ext.moment import Moment
-from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, FileField, TextField, FieldList
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager, current_user, login_required
 from .. import db
+from .forms import SRDForm
 from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
 from ..__init__ import moment
@@ -62,29 +60,18 @@ def browse():
     return render_template('browse.html')
 
 
-class SRDForm(Form):
-	file = FileField('SRD .pdf')
-	title = StringField("Title")
-	tag = FieldList(StringField("Tag"))
-	description = TextField("Description")
-	submit = SubmitField('Submit')
-
-#This is currently really basic, but it does work.
-#It redirects to the SRD page on submission
-#we'll probably want to give the files numerical names
-#to make it easier on ourselves and prevent duplicate uploads.
 @main.route('/submit', methods=['GET', 'POST'])
 @login_required
 def submit():
 	form = SRDForm()
 	if form.validate_on_submit():
-		sys.stdout.flush()
-		filename = secure_filename(form.file.data.filename)
+		#filename = secure_filename(form.file.data.filename)
+		filename = str(SRD.query.count()) + '.pdf'
 		title = form.title.data
 		description = form.description.data
 		srd = SRD()
 		srd.title=title
-		srd.filename=filename
+		srd.filename = filename
 		srd.description=description
 		srd.submissiontime=datetime.utcnow()
 		db.session.add(srd)
