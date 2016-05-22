@@ -8,6 +8,11 @@
 	{{form.hidden_tag()}}
 	{{form.title.label}}
 	{{form.title}}<br>
+	{% set temp=4 %}
+	{% for i in range(0,temp) %}
+		{{form.tag}}
+	{% endfor %}
+	<br>
 	{{form.description.label}}
 	{{form.description}}<br>
 	{{form.file}}<br>

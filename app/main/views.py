@@ -3,7 +3,7 @@ from flask import render_template, request, session, redirect, url_for, current_
 from flask.ext.script import Manager, Shell
 #from flask.ext.moment import Moment
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, FileField, TextField
+from wtforms import StringField, SubmitField, FileField, TextField, FieldList
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager
 from .. import db
@@ -64,6 +64,7 @@ def browse():
 class SRDForm(Form):
 	file = FileField('SRD .pdf')
 	title = StringField("Title")
+	tag = FieldList(StringField("Tag"),min_entries=1)
 	description = TextField("Description")
 	submit = SubmitField('Submit')
 
@@ -75,6 +76,7 @@ class SRDForm(Form):
 def submit():
 	form = SRDForm()
 	if form.validate_on_submit():
+		print form.tag.data
 		filename = secure_filename(form.file.data.filename)
 		title = form.title.data
 		description = form.description.data
@@ -84,6 +86,7 @@ def submit():
 		srd.description=description
 		srd.submissiontime=datetime.utcnow()
 		db.session.add(srd)
+		db.session.commit()
 		form.file.data.save('uploads/' + filename)
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
