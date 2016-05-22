@@ -3,7 +3,7 @@
 #This script is used to launch the application 
 import os 
 from app import create_app, db
-from app.models import User, SRD, Comment, Tag, Rating
+from app.models import User, SRD, Comment, Tag, TagTable, Rating
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 #from flask.ext.mail import Mail
@@ -24,7 +24,7 @@ app.config['SECRET_KEY'] = 'Secret'
 
 def make_shell_context():
     return dict(app=app, db=db, User=User, SRD=SRD, Comment=Comment,
-                Tag=Tag, Rating=Rating)
+                Tag=Tag, TagTable=TagTable, Rating=Rating)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
