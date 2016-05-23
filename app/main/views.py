@@ -1,9 +1,10 @@
 import os
-from flask import render_template, request, session, redirect, abort, url_for, current_app
+from flask import render_template, request, session, redirect, abort, url_for, current_app, flash
 from flask.ext.script import Manager, Shell
 #from flask.ext.moment import Moment
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, FileField, TextField
+from wtforms import StringField, SubmitField, FileField, TextField, TextAreaField
+from wtforms.validators import Length
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager, current_user, login_required
 from .. import db
@@ -56,6 +57,11 @@ def srd(title):
 def browse():
     return render_template('browse.html')
 
+class EditProfileForm(Form):
+    name = StringField('Real name', validators=[Length(0,64)])
+    location = StringField('Location', validators=[Length(0,64)])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
 
 class SRDForm(Form):
 	file = FileField('SRD .pdf')
@@ -86,13 +92,18 @@ def submit():
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
 
-#Now defined in app/auth/views.py:
-
-#@main.route('/login')
-#def login():
-#    return render_template('login.html')
-#
-#@main.route('/signup')
-#def signup():
-#    return render_template('auth/signup.html')
-
+@main.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.location = form.location.data
+        current_user.about_me = form.about_me.data
+        db.session.add(current_user)
+        flash('Your profile has been updated.')
+        return redirect(url_for('.user', username=current_user.username))    
+    form.name.data = current_user.name
+    form.location.data = current_user.location
+    form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', form=form)

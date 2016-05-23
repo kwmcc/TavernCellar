@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = "page-header">
+     <h1>Edit Your Profile</h1>
+</div>
+<form action="/edit_profile" method=post enctype=multipart/form-data>
+    {{ form.hidden_tag() }}
+    {{ form.name.label }}
+    {{ form.name }}<br>
+    {{ form.location.label }}
+    {{ form.location }} <br>
+    {{ form.about_me.label }}
+    {{ form.about_me }} <br>
+    {{ form.submit}}
+</form>
+{% endblock %}
