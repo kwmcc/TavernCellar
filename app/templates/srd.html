@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <div class="page-header">
 	<head>
     {{ moment.include_jquery() }}
@@ -8,8 +9,12 @@
 	</head>
     <h1>SRD</h1>
 	<p>{{ srd.title }}</p>
-	<p>{{ srd.filename }}</p>
+	<input type="button" value="View" onclick="window.location.href='/view/' + '{{ srd.filename}}';"/>
 	<p>{{ srd.description }}</p>
 	<p>{{ moment(srd.submissiontime).format('LLL') }}</p>
+	<h2>TAGS</h2>
+	{% for tag in tags %}
+             {{ tag.content }} 
+        {% endfor %}
 </div>
 {% endblock %}

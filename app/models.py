@@ -108,7 +108,7 @@ class User(UserMixin, db.Model):
 class SRD(db.Model):
     __tablename__ = 'srd'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64))
+    title = db.Column(db.String(64), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     filename = db.Column(db.String(64))
     description = db.Column(db.Text)
@@ -132,11 +132,19 @@ class Comment(db.Model):
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
-    srd_id = db.Column(db.Integer, db.ForeignKey('srd.id'))
     content = db.Column(db.String(64))
 
     def __repr__(self):
         return '<Tag %r>' % self.content
+
+class TagTable(db.Model):
+    __tablename__ = 'tagtable'
+    id = db.Column(db.Integer, primary_key=True)
+    srd_id = db.Column(db.Integer, db.ForeignKey('srd.id'))
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
+
+    def __repr__(self):
+        return '<TagTable %r>' % self.id
 
 class Rating(db.Model):
     __tablename__ = 'ratings'
