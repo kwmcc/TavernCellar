@@ -33,6 +33,7 @@ var/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+.pipout.swp
 
 # Unit test / coverage reports
 htmlcov/
@@ -60,3 +61,11 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#Untracked Files
+scrumdocs/**
+
+# Elastic Beanstalk Files
+#.elasticbeanstalk/*
+#!.elasticbeanstalk/*.cfg.yml
+#!.elasticbeanstalk/*.global.yml
