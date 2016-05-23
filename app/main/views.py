@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import render_template, request, session, redirect, url_for, current_app
+from flask import render_template, request, session, redirect, url_for, current_app, send_from_directory
 from flask.ext.script import Manager, Shell
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager, current_user, login_required
@@ -54,6 +54,10 @@ def srd(title):
                 tags = Tag.query.filter(or_(Tag.id == v for v in ids)).all()
         return render_template('srd.html', srd=srd, tags=tags)
 
+@main.route('/view/<path:filename>')
+def return_files_tut(filename):
+	path = os.path.abspath('uploads/')
+	return send_from_directory(path, filename)
 
 @main.route('/browse')
 def browse():
@@ -65,7 +69,6 @@ def browse():
 def submit():
 	form = SRDForm()
 	if form.validate_on_submit():
-		#filename = secure_filename(form.file.data.filename)
 		filename = str(SRD.query.count()) + '.pdf'
 		title = form.title.data
 		description = form.description.data
