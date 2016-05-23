@@ -63,7 +63,7 @@ target/
 .ipynb_checkpoints
 
 #Untracked Files
-Scrum Documents/
+scrumdocs/**
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
