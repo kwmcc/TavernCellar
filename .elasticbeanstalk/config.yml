@@ -1,0 +1,17 @@
+branch-defaults:
+  singleFile:
+    environment: TavernCellar
+    group_suffix: null
+global:
+  application_name: TavernCellar
+  default_ec2_keyname: TCebKey
+  default_platform: Python 3.4
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git
+option_settings:
+  aws:elasticbeanstalk:container:python
+    WSGIPath: manage.py
+container_commands:
+  runserver:
+    command: "python manage.py runserver"
