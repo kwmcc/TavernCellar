@@ -3,7 +3,7 @@ from flask import Flask
 from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-#from flask.ext.mail import Mail
+from flask.ext.mail import Mail
 from config import config
 from flask_material import Material
 
@@ -11,7 +11,7 @@ from flask_material import Material
 db = SQLAlchemy()
 moment = Moment()
 material = Material()
-#mail = Mail()
+mail = Mail()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -26,7 +26,7 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     material.init_app(app)
-    #mail.init_app(app)
+    mail.init_app(app)
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
