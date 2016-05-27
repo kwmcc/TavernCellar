@@ -2,6 +2,13 @@
 
 {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    var upvote      = $(".upvote"); //Add button ID
+	var downvote    = $(".downvote"); //Add button ID
+	var values    = $(".values"); //Add button ID
+});
+</script>
 <div class="page-header">
 	<head>
     {{ moment.include_jquery() }}
@@ -14,7 +21,11 @@
 	<p>{{ moment(srd.submissiontime).format('LLL') }}</p>
 	<h2>TAGS</h2>
 	{% for tag in tags %}
-             {{ tag.content }} 
-        {% endfor %}
+        {{ tag.content }}
+    {% endfor %}<br>
+	<button class="upvote">upvote</button>
+	<button class="downvote">downvote</button>
+	<div class = "values">
+	</div>
 </div>
 {% endblock %}

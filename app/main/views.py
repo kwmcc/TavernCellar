@@ -80,6 +80,7 @@ def submit():
 		srd.filename = filename
 		srd.description=description
 		srd.submissiontime=datetime.utcnow()
+		srd.user_id=current_user.id
 		db.session.add(srd)
 		db.session.commit()
 		form.file.data.save('uploads/' + filename)
