@@ -10,6 +10,7 @@
     <link rel="import" href={{url_for('static', filename='bower_components/paper-input/paper-input.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-toolbar/paper-toolbar.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-tabs/paper-tabs.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-toast/paper-toast.html', _external=True)}}>
     {% endblock %}
 
     <!-- import of CSS stylesheet for base template (I.E, this file...)-->
@@ -34,6 +35,12 @@
             <paper-tab><a href={{url_for('auth.login')}} class="link" tabindex="-1">Login</a></paper-tab>
         </paper-tabs>
     </paper-toolbar>
+
+    <!--Get any necessary messages using 'flash()' Here. -->
+    {% for message in get_flashed_messages() %}
+        <paper-toast text="{{ message }}" opened> </paper-toast>
+    {% endfor %}
+
     {% block content %}
     
     <!-- This block sets up template inheritance for the other templates. Ideally, we want the rest of
