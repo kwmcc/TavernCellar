@@ -11,6 +11,7 @@
     <link rel="import" href={{url_for('static', filename='bower_components/paper-toolbar/paper-toolbar.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-tabs/paper-tabs.html', _external=True)}}>
     <link rel="import" href={{url_for('static', filename='bower_components/paper-toast/paper-toast.html', _external=True)}}>
+    <link rel="import" href={{url_for('static', filename='bower_components/paper-styles/typography.html', _external=True)}}>
     {% endblock %}
 
     <!-- import of CSS stylesheet for base template (I.E, this file...)-->
@@ -38,7 +39,8 @@
 
     <!--Get any necessary messages using 'flash()' Here. -->
     {% for message in get_flashed_messages() %}
-        <paper-toast text="{{ message }}" opened> </paper-toast>
+        <paper-toast id="toaster" text="{{ message }}" opened> 
+        </paper-toast>
     {% endfor %}
 
     {% block content %}
