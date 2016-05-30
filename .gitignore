@@ -69,3 +69,6 @@ scrumdocs/**
 #.elasticbeanstalk/*
 #!.elasticbeanstalk/*.cfg.yml
 #!.elasticbeanstalk/*.global.yml
+
+# Database Files
+*.sqlite
