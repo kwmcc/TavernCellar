@@ -2,19 +2,36 @@
 
 {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    var upvote      = $(".upvote"); //Add button ID
+	var downvote    = $(".downvote"); //Add button ID
+	var values    = $(".values"); //Add button ID
+});
+</script>
 <div class="page-header">
 	<head>
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
 	</head>
-    <h1>SRD</h1>
-	<p>{{ srd.title }}</p>
+    <h1>{{ srd.title }}</h1>
+	{% if current_user.id==srd.user_id %}
+		<input type="button" value="edit" onclick="window.location.href='/edit/' + '{{ srd.title}}';"/>
+	{% endif %}
 	<input type="button" value="View" onclick="window.location.href='/view/' + '{{ srd.filename}}';"/>
 	<p>{{ srd.description }}</p>
 	<p>{{ moment(srd.submissiontime).format('LLL') }}</p>
 	<h2>TAGS</h2>
-	{% for tag in tags %}
-             {{ tag.content }} 
-        {% endfor %}
+	{% if tags != None %}
+		{% for tag in tags %}
+			{{ tag.content }}
+		{% endfor %}
+	{% else %}
+		None
+	{% endif %}<br>
+	<button class="upvote">upvote</button>
+	<button class="downvote">downvote</button>
+	<div class = "values">
+	</div>
 </div>
 {% endblock %}
