@@ -2,8 +2,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<title>Submit</title>
-<h1>Submit new File</h1>
+{% if current_user.id!=user_id %}
+	<script>window.location.href='/srd/' + '{{ title}}';</script>
+{% endif %}
+<title>Edit</title>
+<h1>Edit {{ title }}</h1>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -25,10 +28,8 @@ $(document).ready(function() {
     })
 });
 </script>
-<form action="/submit" method=post enctype=multipart/form-data>
+<form action="/edit/{{title}}" method=post enctype=multipart/form-data>
 	{{form.hidden_tag()}}
-	{{form.title.label}}<br>
-	{{form.title}}<br>
 	<button class="tag_field_button">Add Tag</button>
 	<div class="tag_fields_wrap">
 		<ul class="tag" id="tag">

@@ -5,7 +5,7 @@ from flask.ext.script import Manager, Shell
 from werkzeug import secure_filename
 from flask.ext.login import LoginManager, current_user, login_required
 from .. import db
-from .forms import SRDForm, EditProfileForm
+from .forms import SRDForm, SRDreForm, EditProfileForm
 from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
 from ..__init__ import moment
@@ -51,17 +51,17 @@ def user(username):
 def srd(title):
 	srd = SRD.query.filter_by(title=title).first_or_404()
 	tag_ids = TagTable.query.filter_by(srd_id=srd.id).all()
-	ids = [];
-	tags = None;
-     	for id in tag_ids:
-		ids.append(id.tag_id);
+	ids = []
+	tags = None
+	for id in tag_ids:
+		ids.append(id.tag_id)
 	if len(ids) > 0:
                 tags = Tag.query.filter(or_(Tag.id == v for v in ids)).all()
         return render_template('srd.html', srd=srd, tags=tags)
 
 @main.route('/view/<path:filename>')
 def return_files_tut(filename):
-	path = os.path.abspath('uploads/')
+	path = os.path.abspath('app/static/uploads/')
 	return send_from_directory(path, filename)
 
 @main.route('/browse')
@@ -72,7 +72,6 @@ def browse():
 @login_required
 def submit():
 	form = SRDForm()
-        print (current_user)
 	if form.validate_on_submit():
 		filename = str(SRD.query.count()) + '.pdf'
 		title = form.title.data
@@ -85,23 +84,54 @@ def submit():
 		srd.user_id=current_user.id
 		db.session.add(srd)
 		db.session.commit()
-		form.file.data.save('uploads/' + filename)
-                for tag in form.tag.data:
-                    srd_tags = TagTable()
-                    srd_tags.srd_id = srd.id  
-                    new_tag = db.session.query(Tag).filter_by(content=tag).first()
-                    if (new_tag):
-                        srd_tags.tag_id = new_tag.id
-                    else:
-                        new_tag = Tag()
-                        new_tag.content = tag
-                        db.session.add(new_tag)
-                        db.session.commit()
-                        srd_tags.tag_id = new_tag.id
-                    db.session.add(srd_tags)
-                    db.session.commit() 
+		form.file.data.save('app/static/uploads/' + filename)
+		for tag in form.tag.data:
+			srd_tags = TagTable()
+			srd_tags.srd_id = srd.id  
+			new_tag = db.session.query(Tag).filter_by(content=tag).first()
+			if (new_tag):
+				srd_tags.tag_id = new_tag.id
+			else:
+				new_tag = Tag()
+				new_tag.content = tag
+				db.session.add(new_tag)
+				db.session.commit()
+				srd_tags.tag_id = new_tag.id
+			db.session.add(srd_tags)
+			db.session.commit()
 		return redirect(url_for('main.srd', title=title))
 	return render_template('submit.html', form=form)
+	
+@main.route('/edit/<title>', methods=['GET', 'POST'])
+@login_required
+def edit(title):
+	form = SRDreForm()
+	srd = SRD.query.filter_by(title=title).first_or_404()
+	tags = TagTable.query.filter_by(srd_id=srd.id).all()
+	if form.validate_on_submit():
+		for tag in tags:
+			db.session.delete(tag)
+		for tag in form.tag.data:
+			srd_tags = TagTable()
+			srd_tags.srd_id = srd.id  
+			new_tag = db.session.query(Tag).filter_by(content=tag).first()
+			if (new_tag):
+				srd_tags.tag_id = new_tag.id
+			else:
+				new_tag = Tag()
+				new_tag.content = tag
+				db.session.add(new_tag)
+				db.session.commit()
+				srd_tags.tag_id = new_tag.id
+			db.session.add(srd_tags)
+			db.session.commit()
+		db.session.commit()
+		srd.description = form.description.data
+		srd.submissiontime=datetime.utcnow()
+		form.file.data.save('app/static/uploads/' + srd.filename)
+		db.session.commit()
+		return redirect(url_for('main.srd', title=title))
+	return render_template('edit.html', title=title, form=form, user_id=srd.user_id)
 
 @main.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
