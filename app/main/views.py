@@ -61,7 +61,7 @@ def srd(title):
 
 @main.route('/view/<path:filename>')
 def return_files_tut(filename):
-	path = os.path.abspath('uploads/')
+	path = os.path.abspath('app/static/uploads/')
 	return send_from_directory(path, filename)
 
 @main.route('/browse')
@@ -84,7 +84,7 @@ def submit():
 		srd.user_id=current_user.id
 		db.session.add(srd)
 		db.session.commit()
-		form.file.data.save('uploads/' + filename)
+		form.file.data.save('app/static/uploads/' + filename)
 		for tag in form.tag.data:
 			srd_tags = TagTable()
 			srd_tags.srd_id = srd.id  
@@ -128,7 +128,7 @@ def edit(title):
 		db.session.commit()
 		srd.description = form.description.data
 		srd.submissiontime=datetime.utcnow()
-		form.file.data.save('uploads/' + srd.filename)
+		form.file.data.save('app/static/uploads/' + srd.filename)
 		db.session.commit()
 		return redirect(url_for('main.srd', title=title))
 	return render_template('edit.html', title=title, form=form, user_id=srd.user_id)
