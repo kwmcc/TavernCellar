@@ -52,9 +52,9 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        #send_email(user.email, 'Confirm your Tavern Cellar account',
-        #           'auth/email/confirm', user=user, token=token)
-        #flash('A email has been sent to the given address. Please confirm your account.')
+        send_email(user.email, 'Confirm your Tavern Cellar account',
+                   'auth/email/confirm', user=user, token=token)
+        flash('A email has been sent to the given address. Please confirm your account.')
         return redirect(url_for('auth.login'))
     return render_template('auth/signup.html', form=form)
 
