@@ -10,7 +10,7 @@ from ..models import User, SRD, Comment, Tag, TagTable, Rating
 from . import main
 from ..__init__ import moment
 from datetime import datetime
-from sqlalchemy import or_, exists
+from sqlalchemy import or_, exists, desc
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
@@ -34,7 +34,8 @@ def allowed_file(filename):
 #Currently known as "The Bar"
 @main.route('/')
 def index():
-    return render_template('index.html')
+    newest = SRD.query.order_by(desc(SRD.submissiontime)).limit(9)
+    return render_template('index.html',newest=newest)
 
 
 @main.route('/user/<username>')
@@ -42,7 +43,8 @@ def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
-    return render_template('user.html', user=user)
+    posts = SRD.query.filter_by(user_id=user.id).all()
+    return render_template('user.html', user=user, posts=posts)
 
 
 @main.route('/srd/<title>')

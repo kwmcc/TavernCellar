@@ -8,7 +8,7 @@ class SRDForm(Form):
 	file = FileField('SRD .pdf', validators=[Required()])
 	title = StringField("Title", validators=[Required(), Length(1, 64)])
 	tag = FieldList(StringField("Tag"))
-	description = TextField("Description", validators=[Required()])
+	description = TextAreaField("Description", validators=[Required()])
 	submit = SubmitField('Submit')
 	def validate_title(self, field):
 		if SRD.query.filter_by(title=field.data).first():
@@ -17,7 +17,7 @@ class SRDForm(Form):
 class SRDreForm(Form):
 	file = FileField('SRD .pdf', validators=[Required()])
 	tag = FieldList(StringField("Tag"))
-	description = TextField("Description", validators=[Required()])
+	description = TextAreaField("Description", validators=[Required()])
 	submit = SubmitField('Submit')
 
 class EditProfileForm(Form):
