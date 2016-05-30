@@ -27,7 +27,7 @@ $(document).ready(function() {
 </script>
 <form action="/submit" method=post enctype=multipart/form-data>
 	{{form.hidden_tag()}}
-	{{form.title.label}}
+	{{form.title.label}}<br>
 	{{form.title}}<br>
 	<button class="tag_field_button">Add Tag</button>
 	<div class="tag_fields_wrap">
@@ -35,7 +35,7 @@ $(document).ready(function() {
 		</ul>
 	</div>
 	<br>
-	{{form.description.label}}
+	{{form.description.label}}<br>
 	{{form.description}}<br>
 	{{form.file}}<br>
 	{{form.submit}}
