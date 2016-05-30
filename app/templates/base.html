@@ -20,7 +20,7 @@
     <!-- 3. Declare the element. Configure using its attributes. -->
     <paper-toolbar id="nav-bar">
         <img src={{url_for('static', filename='barrel.ico', _external=True)}}>
-        <h1> &nbsp; Tavern Cellar </h1>
+        <h1> <a href={{url_for('main.index')}}>&nbsp;Tavern Cellar </a></h1>
 
         <paper-tabs id="navButtons"selected="0" >
             <style is="custom-style">
