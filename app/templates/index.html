@@ -14,8 +14,8 @@
         <paper-tab>This Month</paper-tab>
         <paper-tab>All Time</paper-tab>
     </paper-tabs>
+    
 </paper-toolbar>
-
 <paper-toolbar id="newBrews">
     <h1> &nbsp; New Brews</h1>
     <paper-tabs id="newButtons" selected="0">
@@ -24,4 +24,65 @@
         <paper-tab>All Time</paper-tab>
     </paper-tabs>
 </paper-toolbar>
+
+<style>
+.main-wrap{
+    overflow: hidden;
+}
+
+.content-left {
+    float: left;
+}
+.content-right {
+    
+}
+.topBrews-container {
+    display: flex;
+    float: left;
+    width: 50%;
+    height: 250px;
+    flex-wrap: wrap
+}
+
+.top-brew {
+    background-color: darkred;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+}
+
+.newBrews-container {
+    display: flex;
+    float: right;
+    width: 50%;
+    height: 250px;
+    flex-wrap: wrap
+}
+
+.new-brew {
+    background-color: darkred;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+}
+</style>
+<div id="main-wrap">
+    <div class="topBrews-container">
+        {% for srd in newest %}
+            <div class="top-brew">
+                <a href="{{ url_for('main.srd',title=srd.title) }}">{{srd.title}}</a><br>
+                {{srd.description}}
+            </div>
+         {% endfor %}
+    </div>
+
+    <div class="newBrews-container">
+        {% for srd in newest %}
+            <div class="new-brew">
+                <a href="{{ url_for('main.srd',title=srd.title) }}">{{srd.title}}</a><br>
+                {{srd.description}}
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
