@@ -24,3 +24,10 @@
     right: 0px; 
 }
 
+a.link{
+    color: rgb(255,249,196);
+}
+
+a.visited{
+    color: rgb(255,249,196);
+}
