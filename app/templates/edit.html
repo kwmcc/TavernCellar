@@ -6,14 +6,16 @@
 	<script>window.location.href='/srd/' + '{{ title}}';</script>
 {% endif %}
 <title>Edit</title>
-<h1>Edit {{ title }}</h1>
+<div class="pageHeader">
+	<h1>Edit {{ title }}</h1>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
     var max_fields      = Infinity; //maximum input boxes allowed
     var wrapper         = $(".tag_fields_wrap ul"); //Fields wrapper
     var add_button      = $(".tag_field_button"); //Add button ID
-    
+
     var x = 0; //initlal text box count
     $(add_button).click(function(e){ //on add input button click
         e.preventDefault();
@@ -28,7 +30,7 @@ $(document).ready(function() {
     })
 });
 </script>
-<form action="/edit/{{title}}" method=post enctype=multipart/form-data>
+<form class="pageContent" action="/edit/{{title}}" method=post enctype=multipart/form-data>
 	{{form.hidden_tag()}}
 	<button class="tag_field_button">Add Tag</button>
 	<div class="tag_fields_wrap">

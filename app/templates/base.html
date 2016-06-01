@@ -14,7 +14,7 @@
     <link rel="import" href={{url_for('static', filename='bower_components/paper-styles/typography.html', _external=True)}}>
 
     <!-- Browser Tab Icon -->
-    <link rel="shourtcut icon" href="{{ url_for('static',filename='barrel.ico') }}" type="image/x-icon"> 
+    <link rel="shourtcut icon" href="{{ url_for('static',filename='barrel.ico') }}" type="image/x-icon">
     {% endblock %}
 
     <!-- import of CSS stylesheet for base template (I.E, this file...)-->
@@ -22,9 +22,9 @@
   </head>
   <body>
     <!-- 3. Declare the element. Configure using its attributes. -->
-    <paper-toolbar id="nav-bar">
+    <paper-toolbar id="navBar">
         <img src={{url_for('static', filename='barrel.ico', _external=True)}}>
-        <h1> <a href={{url_for('main.index')}}>&nbsp;Tavern Cellar </a></h1>
+        <h1> <a href={{url_for('main.index')}}>&nbsp; Tavern Cellar</a></h1>
 
         <paper-tabs id="navButtons"selected="0" >
             <style is="custom-style">
@@ -42,12 +42,12 @@
 
     <!--Get any necessary messages using 'flash()' Here. -->
     {% for message in get_flashed_messages() %}
-        <paper-toast id="toaster" text="{{ message }}" opened> 
+        <paper-toast id="toaster" text="{{ message }}" opened>
         </paper-toast>
     {% endfor %}
 
     {% block content %}
-    
+
     <!-- This block sets up template inheritance for the other templates. Ideally, we want the rest of
     our changes to reside between the nav-bar and footer. -->
 
@@ -55,15 +55,15 @@
     <paper-toolbar id="footer">
         <span class="copyright"/>&copy; 2016 Tavern Labs, a UCSC project</span>
         <paper-tabs id="footButtons" selected="0" >
-            <paper-tab>Feedback</paper-tab>
+            <paper-tab><a href="" class="link" tabindex="-1">Feedback</a></paper-tab>
             <paper-tab><a href="https://github.com/kwmcc/TavernCellar" class="link" tabindex="-1">Github</a></paper-tab>
-            <paper-tab>About</paper-tab>
+            <paper-tab><a href="" class="link" tabindex="-1">About</a></paper-tab>
         </paper-tabs>
-    </paper-toolbar> 
+    </paper-toolbar>
 
     <script>
-      // To ensure that elements are ready on polyfilled browsers, 
-      // wait for WebComponentsReady. 
+      // To ensure that elements are ready on polyfilled browsers,
+      // wait for WebComponentsReady.
       document.addEventListener('WebComponentsReady', function() {
         var input = document.querySelector('paper-input');
         var button = document.querySelector('paper-button');
@@ -75,4 +75,3 @@
     </script>
   </body>
 </html>
-

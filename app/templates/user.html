@@ -3,8 +3,12 @@
 {% block content %}
 {{ moment.include_jquery() }}
 {{ moment.include_moment() }}
-<div class="page-header">
+
+<title>{{ user.username }}</title>
+<div class="pageHeader">
     <h1>{{ user.username }}</h1>
+</div>
+<div class="pageContent">
     {% if user.name or user.location %}
     <p>
         {% if user.name %}{{ user.name }}{% endif %}
@@ -28,7 +32,7 @@
     <ul>
         {% for post in posts %}
             <li>
-                {{ post.title }} - posted on 
+                {{ post.title }} - posted on
                 {{ moment(post.submissiontime).format('LLL') }}
             <br>{{ post.description }}
             </li>

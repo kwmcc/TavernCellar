@@ -1,26 +1,76 @@
 #topBrews {
-    background-color: rgb(153, 130, 123);
+    background-color: rgba(153, 130, 123, 0.80);
     color: rgb(255, 249, 196);
     width: 50%;
-    display: inline-block; 
+    display: inline-block;
+}
+
+#topBrews h1 {
+    color: rgb(255, 249, 196);
 }
 
 #newBrews {
-    background-color: rgb(153, 130, 123);
+    background-color: rgba(153, 130, 123, 0.80);
     color: rgb(255,249,196);
     width: 50%;
-    display: inline-block; 
-    position: absolute; 
-    right: 0px; 
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+}
+
+#newBrews h1 {
+    color: rgb(255, 249, 196);
 }
 
 #topButtons {
-    position: absolute; 
-    right: 0px; 
-}
-
-#newButtons {   
     position: absolute;
-    right: 0px; 
+    top: 10px;
+    right: 0px;
 }
 
+#newButtons {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+}
+
+.main-wrap{
+    overflow: hidden;
+}
+
+.content-left {
+    float: left;
+}
+
+.content-right {
+
+}
+
+.topBrews-container {
+    display: flex;
+    float: left;
+    width: 50%;
+    height: 250px;
+    flex-wrap: wrap
+}
+
+.top-brew {
+    background-color: darkred;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+}
+
+.newBrews-container {
+    display: flex;
+    float: right;
+    width: 50%;
+    height: 250px;
+    flex-wrap: wrap
+}
+
+.new-brew {
+    background-color: darkred;
+    width: 150px;
+    height: 150px;
+    margin: 10px;

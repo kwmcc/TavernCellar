@@ -9,12 +9,15 @@ $(document).ready(function() {
 	var values    = $(".values"); //Add button ID
 });
 </script>
-<div class="page-header">
+<div class="pageHeader">
 	<head>
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
 	</head>
+    <title>{{ srd.title }}</title>
     <h1>{{ srd.title }}</h1>
+</div>
+<div class="pageContent">
 	{% if current_user.id==srd.user_id %}
 		<input type="button" value="edit" onclick="window.location.href='/edit/' + '{{ srd.title}}';"/>
 	{% endif %}

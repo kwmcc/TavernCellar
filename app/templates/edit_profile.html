@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class = "page-header">
+
+<title>Edit Profile</title>
+<div class="pageHeader">
      <h1>Edit Your Profile</h1>
 </div>
-<form action="/edit_profile" method=post enctype=multipart/form-data>
+<form class="pageContent" action="/edit_profile" method=post enctype=multipart/form-data>
     {{ form.hidden_tag() }}
     {{ form.name.label }}
     {{ form.name }}<br>
