@@ -38,7 +38,7 @@ def login():
 
 @auth.route('/logout')
 @login_required
-def logout(): 
+def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('main.index'))
@@ -52,9 +52,9 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email(user.email, 'Confirm your Tavern Cellar account',
-                   'auth/email/confirm', user=user, token=token)
-        flash('A email has been sent to the given address. Please confirm your account.')
+        #send_email(user.email, 'Confirm your Tavern Cellar account',
+        #           'auth/email/confirm', user=user, token=token)
+        #flash('A email has been sent to the given address. Please confirm your account.')
         return redirect(url_for('auth.login'))
     return render_template('auth/signup.html', form=form)
 
@@ -73,8 +73,7 @@ def confirm(token):
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm Your Account', 
+    send_email(current_user.email, 'Confirm Your Account',
                'auth/email/confirm', user=current_user, token=token)
     flash('A new confirmation email has been sent to your email address.')
     return redirect(url_for('main.index'))
-
