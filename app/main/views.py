@@ -141,6 +141,11 @@ def edit_profile():
         current_user.name = form.name.data
         current_user.location = form.location.data
         current_user.about_me = form.about_me.data
+        if current_user.verify_password(form.password.data):
+            current_user.password = form.new_password.data
+     #       current_user.email = form.email.data
+        else:
+            flash('Invalid password, cannot update password')
         db.session.add(current_user)
         flash('Your profile has been updated.')
         return redirect(url_for('.user', username=current_user.username))    

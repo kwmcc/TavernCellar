@@ -4,14 +4,25 @@
 <div class = "page-header">
      <h1>Edit Your Profile</h1>
 </div>
-<form action="/edit_profile" method=post enctype=multipart/form-data>
+    <h4> Only fill in the fields you would like to change <br>
+     To change your password, you must include your old password </h4>
+ <form action="/edit_profile" method=post enctype=multipart/form-data>
     {{ form.hidden_tag() }}
     {{ form.name.label }}
     {{ form.name }}<br>
     {{ form.location.label }}
     {{ form.location }} <br>
     {{ form.about_me.label }}
-    {{ form.about_me }} <br>
+    {{ form.about_me }} <br> <br>
+
+ 
+    {{ form.password.label }}
+    {{ form.password }} <br>
+    {{ form.new_password.label }} 
+    {{ form.new_password }}<br>
+    {{ form.new_password2.label }}
+    {{ form.new_password2 }}<br>
     {{ form.submit}}
 </form>
+
 {% endblock %}

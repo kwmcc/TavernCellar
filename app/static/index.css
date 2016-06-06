@@ -26,8 +26,10 @@
 
 a.link{
     color: rgb(255,249,196);
+    text-decoration: underline;
 }
 
 a.visited{
-    color: rgb(255,249,196);
+   color: rgb(255,249,196); 
+    text-decoration: underline;
 }
