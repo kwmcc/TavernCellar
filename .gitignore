@@ -62,9 +62,6 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
-#Untracked Files
-scrumdocs/**
-
 # Elastic Beanstalk Files
 #.elasticbeanstalk/*
 #!.elasticbeanstalk/*.cfg.yml
