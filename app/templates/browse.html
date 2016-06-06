@@ -5,4 +5,12 @@
     <h1>Browse</h1>
 	<p>This will be the location for the search engine</p>
 </div>
+
+ <form style="display: inline;" action="{{ url_for('search') }}" method="post" name="search">{{ g.search_form.hidden_tag() }}{{ g.search_form.search(size=20) }}<input type="submit" value="Search"></form>
+
+  <h1>Search results for "{{ query }}":</h1>
+  {% for srd in results %}
+      {% include 'srd.html' %}
+  {% endfor %}
+
 {% endblock %}

@@ -5,6 +5,17 @@ from flask import current_app, request, url_for
 from datetime import datetime
 from . import db, login_manager
 
+#WHOOSH-Search
+import app
+import sys
+
+if sys.version_info >= (3, 0):
+    enable_search = False
+else:
+    enable_search = True
+    import flask.ext.whooshalchemy as whooshalchemy
+#WHOOSH-Search
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -106,6 +117,7 @@ class User(UserMixin, db.Model):
 
 
 class SRD(db.Model):
+    __searchable__ = ['title']
     __tablename__ = 'srd'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), unique=True)
@@ -156,3 +168,6 @@ class Rating(db.Model):
     def __repr__(self):
         return '<Rating %r>' % self.value
 
+#WHOOSH
+if enable_search:
+    whooshalchemy.whoosh_index(app, SRD)
