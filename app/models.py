@@ -2,6 +2,7 @@ from werkzeug import secure_filename, generate_password_hash, check_password_has
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask.ext.login import UserMixin
 from flask import current_app, request, url_for
+from datetime import datetime
 from . import db, login_manager
 
 @login_manager.user_loader
@@ -18,6 +19,12 @@ class User(UserMixin, db.Model):
     is_administrator = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
+    
+    name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
     @property
     def password(self):
@@ -82,6 +89,10 @@ class User(UserMixin, db.Model):
         self.email = new_email
         db.session.add(self)
         return True
+    
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
     def __repr__(self):
         return '<User %r>' % self.username

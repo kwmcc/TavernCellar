@@ -1,0 +1,11 @@
+branch-defaults:
+  ebs:
+    environment: TavernCellar
+    group_suffix: null
+global:
+  application_name: TavernCellar
+  default_ec2_keyname: TCebKey
+  default_platform: Python 2.7
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git

@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-
 {% block content %}
 
 <div class="page-header">
     <h1>Login</h1>
 	<p>Log into a user account</p>
 </div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-    <br>
-    <p>
-        New to TavernCellar? 
-        <a href="{{ url_for('auth.register') }}">Signup here</a>
-    </p>
-</div>
+<form action="/login" method=post enctype=multipart/form-data>
+    {{ form.hidden_tag() }}
+    {{ form.email.label }}
+    {{ form.email }} <br>
+    {{ form.password.label }}
+    {{ form.password }} <br>
+    {{ form.remember_me }}
+    {{ form.remember_me.label }} <br>
+    {{ form.submit }}
+</form>
+<p>
+    New to TavernCellar? 
+    <a href="{{ url_for('auth.register')}}">Signup here</a>
+    <br>Old to TavernCellar?
+    <a href="{{ url_for('auth.logout')}}">Logout here</a>
+</p>
 {% endblock %}
 
